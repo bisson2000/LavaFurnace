@@ -25,7 +25,7 @@ build
 .gradle
 
 # datagen caches
-/src/datagen/generated/**/.cache
+/src/generated/**/.cache
 
 # Files from Forge MDK
 forge*changelog.txt

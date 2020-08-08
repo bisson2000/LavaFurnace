@@ -26,6 +26,7 @@ build
 
 # datagen caches
 /src/generated/**/.cache
+src/generated/**/*.json text eol=lf
 
 # Files from Forge MDK
 forge*changelog.txt

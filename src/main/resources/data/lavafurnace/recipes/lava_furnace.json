@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "iii",
+    "bfi",
+    "iii"
+  ],
+  "key":
+  {
+    "i":
+    {
+      "tag": "forge:ingots/iron"
+    },
+    "b":
+    {
+      "item": "minecraft:bucket"
+    },
+    "f":
+    {
+      "item": "minecraft:furnace"
+    }
+
+  },
+  "result":
+  {
+    "item": "lavafurnace:lava_furnace",
+    "count": 1
+  }
+}

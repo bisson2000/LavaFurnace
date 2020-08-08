@@ -1,0 +1,76 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "name": "lava_furnace_nbt",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:copy_name",
+              "source": "block_entity"
+            },
+            {
+              "function": "minecraft:copy_nbt",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "lavafurnace:lava_furnace",
+                  "properties": {
+                    "issempty": "false"
+                  }
+                }
+              ],
+              "source": "block_entity",
+              "ops": [
+                {
+                  "source": "tank",
+                  "target": "BlockEntityTag.tank",
+                  "op": "replace"
+                }
+              ]
+            },
+            {
+              "function": "minecraft:set_contents",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "lavafurnace:lava_furnace",
+                  "properties": {
+                    "issempty": "false"
+                  }
+                }
+              ],
+              "entries": [
+                {
+                  "type": "minecraft:dynamic",
+                  "name": "minecraft:contents"
+                }
+              ]
+            },
+            {
+              "function": "minecraft:copy_state",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "lavafurnace:lava_furnace",
+                  "properties": {
+                    "issempty": "false"
+                  }
+                }
+              ],
+              "block": "lavafurnace:lava_furnace",
+              "properties": [
+                "issempty",
+                "hashotfluid"
+              ]
+            }
+          ],
+          "name": "lavafurnace:lava_furnace"
+        }
+      ]
+    }
+  ]
+}

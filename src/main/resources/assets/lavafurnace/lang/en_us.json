@@ -1,0 +1,12 @@
+{
+  "block.lavafurnace.lava_furnace" : "Lava Furnace",
+
+  "container.lava_furnace" : "Lava Furnace",
+
+  "gui.lavafurnace.empty": "Empty",
+  "gui.lavafurnace.smelting": "Lava Smelting",
+
+  "desc.lavafurnace.info.holdShiftForInfo": "§8Hold Shift for more info§r",
+
+  "itemGroup.lavaFurnaceModTab": "Lava Furnace"
+}

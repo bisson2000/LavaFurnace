@@ -1,3 +1,35 @@
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# idea
+output
+out
+*.ipr
+*.iws
+*.iml
+.idea
+*.txt
+
+# other
+eclipse
+run
+.gitattributes
+
+# gradle
+build
+.gradle
+
+# datagen caches
+/src/datagen/generated/**/.cache
+
+# Files from Forge MDK
+forge*changelog.txt
+
 # Compiled class file
 *.class
 

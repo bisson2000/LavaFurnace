@@ -5,6 +5,7 @@ import bisson2000.LavaFurnace.containers.LavaFurnaceContainer;
 import bisson2000.LavaFurnace.network.DumpLavaFurnace;
 import bisson2000.LavaFurnace.network.Networking;
 import bisson2000.LavaFurnace.tileentity.LavaFurnaceTileEntity;
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -60,17 +61,22 @@ public class LavaFurnaceScreen extends ContainerScreen<LavaFurnaceContainer> {
     }
 
     @Override   //Render
-    public void render(MatrixStack p_230430_1_, int mouseX, int mouseY, float partialTicks) {
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 
-        this.renderBackground(p_230430_1_); //Render Background
-        super.render(p_230430_1_, mouseX, mouseY, partialTicks);
-        this.func_230459_a_(p_230430_1_, mouseX, mouseY);
+        this.renderBackground(matrixStack); //Render Background
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
+        this.func_230459_a_(matrixStack, mouseX, mouseY);
 
         //tooltip
         List<ITextComponent> tooltip = new ArrayList<>();
         this.drawToolTip(fluidTank.getFluid(), tooltip, fluidTank.getCapacity(), guiLeft + 14, guiTop + 9, 18, 59, mouseX, mouseY);
-        if (!tooltip.isEmpty())
-            GuiUtils.drawHoveringText(p_230430_1_, tooltip, mouseX, mouseY, width, height, -1, font);
+        if(!tooltip.isEmpty() && Minecraft.getInstance().currentScreen != null)
+            Minecraft.getInstance().currentScreen.renderToolTip(matrixStack,
+                    tooltip.stream().map(LanguageMap.getInstance()::func_241870_a).collect(ImmutableList.toImmutableList()),
+                    mouseX, mouseY, font);
+
+//        if (!tooltip.isEmpty())
+//            GuiUtils.drawHoveringText(p_230430_1_, tooltip, mouseX, mouseY, width, height, -1, font);
     }
 
     @Override

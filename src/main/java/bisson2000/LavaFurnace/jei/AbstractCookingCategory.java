@@ -3,6 +3,7 @@ package bisson2000.LavaFurnace.jei;
 import bisson2000.LavaFurnace.util.Config;
 import bisson2000.LavaFurnace.LavaFurnace;
 import bisson2000.LavaFurnace.gui.LavaFurnaceScreen;
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
@@ -24,6 +25,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.AbstractCookingRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.LanguageMap;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.client.gui.GuiUtils;
@@ -94,7 +96,7 @@ public abstract class AbstractCookingCategory<T extends AbstractCookingRecipe> i
             Minecraft minecraft = Minecraft.getInstance();
             FontRenderer fontRenderer = minecraft.fontRenderer;
             int stringWidth = fontRenderer.func_238414_a_(experienceString);
-            fontRenderer.func_238422_b_(matrixStack, experienceString, background.getWidth() - stringWidth, 0, 0xFF808080);
+            fontRenderer.func_238422_b_(matrixStack, experienceString.func_241878_f(), background.getWidth() - stringWidth, 0, 0xFF808080);
         }
 
         //Fluid tank
@@ -112,9 +114,14 @@ public abstract class AbstractCookingCategory<T extends AbstractCookingRecipe> i
         List<ITextComponent> tooltip = new ArrayList<>();
         LavaFurnaceScreen.drawToolTip(displayedFluid, tooltip, Config.LAVA_FURNACE_TANK_CAPACITY.get(),
                 0, 0 ,18, 59, (int) mouseX, (int) mouseY);
-        if (!tooltip.isEmpty())
-            GuiUtils.drawHoveringText(matrixStack, tooltip, (int) mouseX, (int) mouseY, 124, 61, -1,
-                    Minecraft.getInstance().fontRenderer);
+        if(!tooltip.isEmpty() && Minecraft.getInstance().currentScreen != null)
+            Minecraft.getInstance().currentScreen.renderToolTip(matrixStack,
+                    tooltip.stream().map(LanguageMap.getInstance()::func_241870_a).collect(ImmutableList.toImmutableList()),
+                    (int) mouseX, (int) mouseY, Minecraft.getInstance().fontRenderer);
+
+//        if (!tooltip.isEmpty())
+//            GuiUtils.drawHoveringText(matrixStack, tooltip, (int) mouseX, (int) mouseY, 124, 61, -1,
+//                    Minecraft.getInstance().fontRenderer);
 
     }
 

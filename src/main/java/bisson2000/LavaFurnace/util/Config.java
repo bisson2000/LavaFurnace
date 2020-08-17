@@ -137,25 +137,10 @@ public class Config {
                     return true;
                 });
 
-        BLACKLISTED_FLUIDS_ENTRY = COMMON_BUILDER.comment("\n"+
-                "Fluids not allowed to smelt items. The registry name must be entered ( \"MODID\":\"fluidName\" ) \n" +
-                "Default value: minecraft:empty")
-                .define("blacklistedFluids", "minecraft:empty", (entry) -> {
-                    if(!(entry instanceof String))
-                        return false;
-                    try {
-                        BLACKLISTED_FLUIDS = handleFluidEntryList((String) entry);
-                    } catch (IllegalArgumentException | ResourceLocationException e){
-                        e.printStackTrace();
-                        return false;
-                    }
-                    return true;
-                });
-
         LAVA_FURNACE_MB_PER_TICK = COMMON_BUILDER.comment("\n"+
                 "Number of mB per tick used by the Lava Furnace to smelt.\n" +
                 "Default value: 2")
-                .defineInRange("lavaFurnaceMBperTick", 2, 0, Integer.MAX_VALUE);
+                .defineInRange("lavaFurnaceMBperTick", 1, 0, Integer.MAX_VALUE);
 
         LAVA_FURNACE_KEEPS_NBT = COMMON_BUILDER.comment("\n"+
                 "If the Lava Furnace should keeps its nbt value when broken.\n" +

@@ -1,0 +1,9 @@
+{
+  "type": "lavafurnace:smelting",
+  "ingredient": {
+    "item": "minecraft:diamond"
+  },
+  "result": "minecraft:gold_ingot",
+  "experience": 1.0,
+  "cookingtime": 200
+}

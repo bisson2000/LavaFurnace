@@ -11,7 +11,7 @@ issueTrackerURL="https://github.com/bisson2000/LavaFurnace/issues" #optional
 
 modId="lavafurnace" #mandatory
 
-version="1.16.1-1.0.0" #mandatory
+version="1.16.1-1.0.3" #mandatory
 
 displayName="Lava Furnace" #mandatory
 

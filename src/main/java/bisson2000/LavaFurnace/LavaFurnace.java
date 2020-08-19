@@ -39,7 +39,6 @@ public class LavaFurnace {
         modEventBus.addListener(this::setup);
         modEventBus.addListener(this::doClientStuff);
 
-        RecipeSerializerRegistry.CUSTOM_RECIPE_SERIALIZERS.register(modEventBus);
         BlocksRegistry.BLOCKS.register(modEventBus);
         ItemsRegistry.ITEMS.register(modEventBus);
         TileEntityRegistry.TILE_ENTITIES.register(modEventBus);

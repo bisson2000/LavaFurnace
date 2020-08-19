@@ -1,14 +1,10 @@
 package bisson2000.LavaFurnace.jei;
 
-import bisson2000.LavaFurnace.tileentity.LavaFurnaceTileEntity;
 import bisson2000.LavaFurnace.util.Config;
 import bisson2000.LavaFurnace.LavaFurnace;
-import bisson2000.LavaFurnace.gui.LavaFurnaceScreen;
-import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
-import mezz.jei.api.gui.ITickTimer;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
@@ -25,20 +21,14 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.AbstractCookingRecipe;
-import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.LanguageMap;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.client.gui.GuiUtils;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public abstract class AbstractCookingCategory<T extends AbstractCookingRecipe> implements IRecipeCategory<T> {
 
@@ -101,30 +91,6 @@ public abstract class AbstractCookingCategory<T extends AbstractCookingRecipe> i
             fontRenderer.func_238422_b_(matrixStack, experienceString.func_241878_f(), background.getWidth() - stringWidth, 0, 0xFF808080);
         }
 
-//        //Fluid tank
-//        if(timer.getValue() != lastTimerValue){
-//            lastTimerValue = timer.getValue();
-//            displayedFluid = new FluidStack(getRandomAcceptedFluids(), Config.LAVA_FURNACE_TANK_CAPACITY.get());
-//        }
-//
-//        //FluidStack displayedFluid = new FluidStack(Config.BASE_FLUID_MODIFIER, Config.LAVA_FURNACE_TANK_CAPACITY.get());
-//        LavaFurnaceScreen.drawFluidInTank(matrixStack, displayedFluid,
-//                Config.LAVA_FURNACE_TANK_CAPACITY.get(), 1, 1, 18, 59);
-//        linesOverFluid.draw(matrixStack, 0, 0);
-//
-        //Fluid tooltip
-//        List<ITextComponent> tooltip = new ArrayList<>();
-//        LavaFurnaceScreen.drawToolTip(new FluidStack(Fluids.LAVA, 10000), tooltip, Config.LAVA_FURNACE_TANK_CAPACITY.get(),
-//                0, 0 ,18, 59, (int) mouseX, (int) mouseY);
-//        if(!tooltip.isEmpty() && Minecraft.getInstance().currentScreen != null)
-//            Minecraft.getInstance().currentScreen.renderToolTip(matrixStack,
-//                    tooltip.stream().map(LanguageMap.getInstance()::func_241870_a).collect(ImmutableList.toImmutableList()),
-//                    (int) mouseX, (int) mouseY, Minecraft.getInstance().fontRenderer);
-
-//        if (!tooltip.isEmpty())
-//            GuiUtils.drawHoveringText(matrixStack, tooltip, (int) mouseX, (int) mouseY, 124, 61, -1,
-//                    Minecraft.getInstance().fontRenderer);
-
     }
 
     @Override
@@ -138,7 +104,7 @@ public abstract class AbstractCookingCategory<T extends AbstractCookingRecipe> i
         IGuiFluidStackGroup guiFluidStacks = recipeLayout.getFluidStacks();
 
         guiItemStacks.init(inputSlot, true, 56 - 13 - 1, 17 - 8 - 1);
-        guiFluidStacks.init(fuelSlot, false, 14 - 13, 9 - 8, 18, 59, 10000, false, linesOverFluid);
+        guiFluidStacks.init(fuelSlot, false, 14 - 13, 9 - 8, 18, 59, Config.LAVA_FURNACE_TANK_CAPACITY.get(), false, linesOverFluid);
         guiItemStacks.init(outputSlot, false, 116 - 13 - 1, 35 - 8 - 1);
 
         guiItemStacks.set(ingredients);
@@ -165,9 +131,14 @@ public abstract class AbstractCookingCategory<T extends AbstractCookingRecipe> i
 
             for (Fluid fluid : fluidList) {
                 if (Config.isFluidValid(fluid) && fluid.isSource(fluid.getDefaultState()))
-                    acceptedFluids.add(new FluidStack(fluid, getCookTime(fluid, recipe)));
+                    acceptedFluids.add(new FluidStack(fluid, lavaMBrequired(fluid, recipe)));
             }
             return acceptedFluids;
+        }
+
+        private static <T extends AbstractCookingRecipe> int lavaMBrequired(Fluid fluid, T recipe){
+            return MathHelper.clamp(getCookTime(fluid, recipe) * Config.LAVA_FURNACE_MB_PER_TICK.get(),
+                    0, Config.LAVA_FURNACE_TANK_CAPACITY.get());
         }
 
         /**
@@ -176,9 +147,9 @@ public abstract class AbstractCookingCategory<T extends AbstractCookingRecipe> i
          * @param fluid
          * @param recipe
          * @param <T>
-         * @return
+         * @return          The cook time in tick
          */
-        public static <T extends AbstractCookingRecipe > int getCookTime (Fluid fluid, T recipe){
+        private static <T extends AbstractCookingRecipe> int getCookTime (Fluid fluid, T recipe){
             if (fluid == null || recipe == null || fluid.isEquivalentTo(Fluids.EMPTY))
                 return Integer.MAX_VALUE;
 

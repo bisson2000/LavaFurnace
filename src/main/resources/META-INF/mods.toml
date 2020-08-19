@@ -27,11 +27,7 @@ credits="The minecraft modding community" #optional
 
 authors="bisson2000" #optional
 
-description='''
-
-This mod adds a Lava Furnace that smelts items faster with hot fluids
-
-'''
+description='''This mod adds a Lava Furnace that smelts items faster with hot fluids'''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.lavafurnace]] #optional
     # the modid of the dependency

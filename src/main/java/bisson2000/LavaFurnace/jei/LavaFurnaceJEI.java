@@ -75,7 +75,7 @@ public class LavaFurnaceJEI implements IModPlugin {
 
     public static <T extends AbstractCookingRecipe> void RecipeRegistryHandler(IRecipeRegistration registry, ResourceLocation id, IRecipeType<T> type) {
         world.getRecipeManager().func_241447_a_(type); //getRecipes
-        List recipes = world.getRecipeManager().func_241447_a_(type);
+        List<T> recipes = world.getRecipeManager().func_241447_a_(type);
         registry.addRecipes(recipes, id);
     }
 

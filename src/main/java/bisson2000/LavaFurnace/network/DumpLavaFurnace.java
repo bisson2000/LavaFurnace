@@ -38,9 +38,9 @@ public class DumpLavaFurnace {
             if (world.isBlockLoaded(pos) && world.getTileEntity(pos) instanceof LavaFurnaceTileEntity) {
                 LavaFurnaceTileEntity te = (LavaFurnaceTileEntity) world.getTileEntity(pos);
                 te.getFluidTank().setFluid(FluidStack.EMPTY);
-                te.getBlockState().with(LavaFurnaceBlock.IS_EMPTY, Boolean.valueOf(true));
-                world.setBlockState(pos, world.getBlockState(pos).with(LavaFurnaceBlock.IS_EMPTY, Boolean.valueOf(true)),3);
-                world.setBlockState(pos, world.getBlockState(pos).with(LavaFurnaceBlock.HAS_HOT_FLUID, Boolean.valueOf(false)), 3);
+                te.getBlockState().with(LavaFurnaceBlock.IS_EMPTY, Boolean.TRUE);
+                world.setBlockState(pos, world.getBlockState(pos).with(LavaFurnaceBlock.IS_EMPTY, Boolean.TRUE),3);
+                world.setBlockState(pos, world.getBlockState(pos).with(LavaFurnaceBlock.HAS_HOT_FLUID, Boolean.FALSE), 3);
             } else {
                 LavaFurnace.LOGGER.error("Dumping fluid in Tank @: " + pos.toString() + " failed because" +
                         " the block is unloaded or not a LavaFurnaceTileEntity");

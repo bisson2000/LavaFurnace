@@ -4,17 +4,12 @@ import bisson2000.LavaFurnace.blocks.LavaFurnaceBlock;
 import bisson2000.LavaFurnace.init.TileEntityRegistry;
 import bisson2000.LavaFurnace.tileentity.LavaFurnaceTileEntity;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.util.Direction;
@@ -47,7 +42,7 @@ public class LavaFurnaceRenderer extends TileEntityRenderer<LavaFurnaceTileEntit
     private static void renderTileFluid(LavaFurnaceTileEntity tileEntityIn, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int lightIn, int overlayLight){
 
         FluidTank tank = tileEntityIn.getFluidTank();
-        if(tank == null || tank.getFluid() == null || tank.getFluid().getFluid() == null || tank.isEmpty())
+        if(tank == null || tank.getFluid().getFluid() == null || tank.isEmpty())
             return;
 
         FluidStack fluid = tank.getFluid();
@@ -58,7 +53,7 @@ public class LavaFurnaceRenderer extends TileEntityRenderer<LavaFurnaceTileEntit
 
         final int lightLevel = calculateLightEmitted(fluid, lightIn);
 
-        matrixStackIn.push(); //push
+        matrixStackIn.push();
 
         ResourceLocation stillfluidResourceLocation = renderedFluid.getAttributes().getStillTexture();
         TextureAtlasSprite stillFluidSprite = Minecraft.getInstance().getModelManager().getAtlasTexture(PlayerContainer.LOCATION_BLOCKS_TEXTURE).getSprite(stillfluidResourceLocation);
@@ -81,7 +76,7 @@ public class LavaFurnaceRenderer extends TileEntityRenderer<LavaFurnaceTileEntit
         float iconWidth = stillFluidSprite.getWidth();
         float iconHeight = stillFluidSprite.getHeight();
         if (!(iconWidth > 0 && iconHeight > 0)) {
-            matrixStackIn.pop(); //pop
+            matrixStackIn.pop();
             return;
         }
 
@@ -95,9 +90,7 @@ public class LavaFurnaceRenderer extends TileEntityRenderer<LavaFurnaceTileEntit
                 rotationDegrees += 90;
             case WEST:
                 rotationDegrees += 90;
-            case NORTH: //Facing north by default
-                break;
-            default:
+            default: //Facing NORTH by default
                 break;
         }
 
@@ -107,12 +100,10 @@ public class LavaFurnaceRenderer extends TileEntityRenderer<LavaFurnaceTileEntit
 
         float uMin = stillFluidSprite.getMinU();
         float vMin = stillFluidSprite.getMinV();
-        float adaptedMaxU = stillFluidSprite.getMaxU();
-        float adaptedMaxV = stillFluidSprite.getMinV();
 
         //top
-        adaptedMaxU = adaptedMaxU(stillFluidSprite, FURNACE_THICKNESS, 1 - FRAME_THICKNESS);
-        adaptedMaxV = adaptedMaxV(stillFluidSprite, FRAME_THICKNESS, 1 - FRAME_THICKNESS);
+        float adaptedMaxU = adaptedMaxU(stillFluidSprite, FURNACE_THICKNESS, 1 - FRAME_THICKNESS);
+        float adaptedMaxV = adaptedMaxV(stillFluidSprite, 1 - FRAME_THICKNESS);
         add(builder, matrixStackIn, r, g, b, a, FURNACE_THICKNESS , scale + FRAME_THICKNESS , 1 - FRAME_THICKNESS, uMin, adaptedMaxV, lightLevel, overlayLight);
         add(builder, matrixStackIn, r, g, b, a,1 - FRAME_THICKNESS , scale + FRAME_THICKNESS , 1 - FRAME_THICKNESS, adaptedMaxU, adaptedMaxV, lightLevel, overlayLight);
         add(builder, matrixStackIn, r, g, b, a,1 - FRAME_THICKNESS, scale + FRAME_THICKNESS , FRAME_THICKNESS, adaptedMaxU, vMin, lightLevel, overlayLight);
@@ -126,7 +117,7 @@ public class LavaFurnaceRenderer extends TileEntityRenderer<LavaFurnaceTileEntit
 
         //North
         adaptedMaxU = adaptedMaxU(stillFluidSprite, FURNACE_THICKNESS, 1 - FRAME_THICKNESS);
-        adaptedMaxV = adaptedMaxV(stillFluidSprite, FRAME_THICKNESS, FRAME_THICKNESS + scale);
+        adaptedMaxV = adaptedMaxV(stillFluidSprite, FRAME_THICKNESS + scale);
         add(builder, matrixStackIn, r, g, b, a, FURNACE_THICKNESS , FRAME_THICKNESS +scale , FRAME_THICKNESS, uMin, vMin, lightLevel, overlayLight);
         add(builder, matrixStackIn, r, g, b, a, 1 - FRAME_THICKNESS, FRAME_THICKNESS +scale , FRAME_THICKNESS, adaptedMaxU, vMin, lightLevel, overlayLight);
         add(builder, matrixStackIn, r, g, b, a, 1 - FRAME_THICKNESS , FRAME_THICKNESS , FRAME_THICKNESS, adaptedMaxU, adaptedMaxV, lightLevel, overlayLight);
@@ -134,7 +125,7 @@ public class LavaFurnaceRenderer extends TileEntityRenderer<LavaFurnaceTileEntit
 
         //East
         adaptedMaxU = adaptedMaxU(stillFluidSprite, FRAME_THICKNESS, 1 - FRAME_THICKNESS);
-        adaptedMaxV = adaptedMaxV(stillFluidSprite, FRAME_THICKNESS, FRAME_THICKNESS +scale);
+        adaptedMaxV = adaptedMaxV(stillFluidSprite, FRAME_THICKNESS +scale);
         add(builder, matrixStackIn, r, g, b, a, 1 - FRAME_THICKNESS, FRAME_THICKNESS +scale , FRAME_THICKNESS, uMin, vMin, lightLevel, overlayLight);
         add(builder, matrixStackIn, r, g, b, a, 1 - FRAME_THICKNESS, FRAME_THICKNESS +scale , 1 - FRAME_THICKNESS, adaptedMaxU, vMin, lightLevel, overlayLight);
         add(builder, matrixStackIn, r, g, b, a, 1 - FRAME_THICKNESS, FRAME_THICKNESS , 1 - FRAME_THICKNESS, adaptedMaxU, adaptedMaxV, lightLevel, overlayLight);
@@ -142,7 +133,7 @@ public class LavaFurnaceRenderer extends TileEntityRenderer<LavaFurnaceTileEntit
 
         //South
         adaptedMaxU = adaptedMaxU(stillFluidSprite, FURNACE_THICKNESS, 1 - FRAME_THICKNESS);
-        adaptedMaxV = adaptedMaxV(stillFluidSprite, FRAME_THICKNESS, FRAME_THICKNESS + scale);
+        adaptedMaxV = adaptedMaxV(stillFluidSprite, FRAME_THICKNESS + scale);
         add(builder, matrixStackIn, r, g, b, a, FURNACE_THICKNESS , FRAME_THICKNESS , 1 - FRAME_THICKNESS, uMin, adaptedMaxV, lightLevel, overlayLight);
         add(builder, matrixStackIn, r, g, b, a, 1 - FRAME_THICKNESS , FRAME_THICKNESS , 1 - FRAME_THICKNESS, adaptedMaxU, adaptedMaxV, lightLevel, overlayLight);
         add(builder, matrixStackIn, r, g, b, a, 1 - FRAME_THICKNESS, FRAME_THICKNESS +scale , 1 - FRAME_THICKNESS, adaptedMaxU, vMin, lightLevel, overlayLight);
@@ -150,7 +141,7 @@ public class LavaFurnaceRenderer extends TileEntityRenderer<LavaFurnaceTileEntit
         //West
         //Nothing to render when facing the block itself
 
-        matrixStackIn.pop(); //pop
+        matrixStackIn.pop();
 
     }
 
@@ -158,16 +149,14 @@ public class LavaFurnaceRenderer extends TileEntityRenderer<LavaFurnaceTileEntit
         float uMin = fluidSprite.getMinU();
         float iconUDif = (fluidSprite.getMaxU() - uMin);
         float percentageU = (u2-u1);
-        float adaptedMaxU = uMin + iconUDif * percentageU;
-        return adaptedMaxU;
+        return uMin + iconUDif * percentageU;
     }
 
-    private static float adaptedMaxV(TextureAtlasSprite fluidSprite, float v1, float v2){
+    private static float adaptedMaxV(TextureAtlasSprite fluidSprite, float v2){
         float vMin = fluidSprite.getMinV();
         float iconVDif = (fluidSprite.getMaxV() - vMin);
-        float percentageV = (v2-v1);
-        float adaptedMaxV = vMin + iconVDif * percentageV;
-        return adaptedMaxV;
+        float percentageV = (v2- LavaFurnaceRenderer.FRAME_THICKNESS);
+        return vMin + iconVDif * percentageV;
     }
 
     private static int calculateLightEmitted(@Nonnull FluidStack fluid, int basicLightLevel){

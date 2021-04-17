@@ -22,7 +22,6 @@ import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.text.*;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
-import net.minecraftforge.fml.client.gui.GuiUtils;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -69,14 +68,12 @@ public class LavaFurnaceScreen extends ContainerScreen<LavaFurnaceContainer> {
 
         //tooltip
         List<ITextComponent> tooltip = new ArrayList<>();
-        this.drawToolTip(fluidTank.getFluid(), tooltip, fluidTank.getCapacity(), guiLeft + 14, guiTop + 9, 18, 59, mouseX, mouseY);
+        drawToolTip(fluidTank.getFluid(), tooltip, fluidTank.getCapacity(), guiLeft + 14, guiTop + 9, 18, 59, mouseX, mouseY);
         if(!tooltip.isEmpty() && Minecraft.getInstance().currentScreen != null)
             Minecraft.getInstance().currentScreen.renderToolTip(matrixStack,
                     tooltip.stream().map(LanguageMap.getInstance()::func_241870_a).collect(ImmutableList.toImmutableList()),
                     mouseX, mouseY, font);
 
-//        if (!tooltip.isEmpty())
-//            GuiUtils.drawHoveringText(p_230430_1_, tooltip, mouseX, mouseY, width, height, -1, font);
     }
 
     @Override
@@ -164,7 +161,7 @@ public class LavaFurnaceScreen extends ContainerScreen<LavaFurnaceContainer> {
         int color = fluid.getFluid().getAttributes().getColor();
         float r = ((color >> 16) & 0xFF) / 255f; // red
         float g = ((color >> 8) & 0xFF) / 255f; // green
-        float b = ((color >> 0) & 0xFF) / 255f; // blue
+        float b = ((color) & 0xFF) / 255f; // blue
         float a = ((color >> 24) & 0xFF) / 255f; // alpha
         RenderSystem.color4f(r, g, b, a);
 

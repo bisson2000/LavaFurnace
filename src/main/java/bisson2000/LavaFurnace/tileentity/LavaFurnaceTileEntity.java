@@ -123,15 +123,12 @@ public class LavaFurnaceTileEntity extends TileEntity implements IRecipeHolder, 
 
     @Nullable
     @Override
-    public Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_, PlayerEntity p_createMenu_3_) {
-        return new LavaFurnaceContainer(p_createMenu_1_, p_createMenu_2_, this, this.furnaceData);
+    public Container createMenu(int windowID, PlayerInventory playerInventory, PlayerEntity unused) {
+        return new LavaFurnaceContainer(windowID, playerInventory, this, this.furnaceData);
     }
 
     public static boolean isItemValidForSlot(int index, ItemStack stack) {
-        if (index == 1)
-            return false;
-
-        return true;
+        return index != 1;
     }
 
     @Override

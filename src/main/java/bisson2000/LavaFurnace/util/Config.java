@@ -50,17 +50,14 @@ public class Config {
 
         CONFIG_DIR = FMLPaths.getOrCreateGameRelativePath(FMLPaths.CONFIGDIR.get().resolve(LavaFurnace.class.getSimpleName()), LavaFurnace.class.getSimpleName());
 
-        //ForgeConfigSpec.Builder SERVER_BUILDER = new ForgeConfigSpec.Builder();
         ForgeConfigSpec.Builder CLIENT_BUILDER = new ForgeConfigSpec.Builder();
         ForgeConfigSpec.Builder COMMON_BUILDER = new ForgeConfigSpec.Builder();
 
         setupCommonConfig(COMMON_BUILDER);
-        //setupServerConfig(SERVER_BUILDER);
         setupClientConfig(CLIENT_BUILDER);
 
 
         COMMON_CONFIG = COMMON_BUILDER.build();
-        //SERVER_CONFIG = SERVER_BUILDER.build();
         CLIENT_CONFIG = CLIENT_BUILDER.build();
     }
 

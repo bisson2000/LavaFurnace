@@ -1,6 +1,7 @@
 package bisson2000.LavaFurnace.containers;
 
 import bisson2000.LavaFurnace.tileentity.LavaFurnaceTileEntity;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;

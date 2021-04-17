@@ -62,9 +62,7 @@ public class LavaFurnaceBlock extends Block {
             Block.makeCuboidShape(16, 1, 1, 16, 15, 15),
             Block.makeCuboidShape(12, 0, 1, 15, 0, 15),
             Block.makeCuboidShape(0, 0, 0, 12, 16, 16)
-    ).reduce((v1, v2) -> {
-        return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);
-    }).get();
+    ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
 
     private static final VoxelShape SHAPE_E = Stream.of(
             Block.makeCuboidShape(1, 15, 15, 15, 16, 16),
@@ -80,9 +78,7 @@ public class LavaFurnaceBlock extends Block {
             Block.makeCuboidShape(1, 1, 16, 15, 15, 16),
             Block.makeCuboidShape(1, 0, 12, 15, 0, 15),
             Block.makeCuboidShape(0, 0, 0, 16, 16, 12)
-    ).reduce((v1, v2) -> {
-        return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);
-    }).get();
+    ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
 
     private static final VoxelShape SHAPE_S = Stream.of(
             Block.makeCuboidShape(0, 15, 1, 1, 16, 15),
@@ -98,9 +94,7 @@ public class LavaFurnaceBlock extends Block {
             Block.makeCuboidShape(0, 1, 1, 0, 15, 15),
             Block.makeCuboidShape(1, 0, 1, 4, 0, 15),
             Block.makeCuboidShape(4, 0, 0, 16, 16, 16)
-    ).reduce((v1, v2) -> {
-        return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);
-    }).get();
+    ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
 
     private static final VoxelShape SHAPE_W = Stream.of(
             Block.makeCuboidShape(1, 15, 0, 15, 16, 1),
@@ -116,9 +110,7 @@ public class LavaFurnaceBlock extends Block {
             Block.makeCuboidShape(1, 1, 0, 15, 15, 0),
             Block.makeCuboidShape(1, 0, 1, 15, 0, 4),
             Block.makeCuboidShape(0, 0, 4, 16, 16, 16)
-    ).reduce((v1, v2) -> {
-        return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);
-    }).get();
+    ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
 
     public LavaFurnaceBlock() {
 
@@ -128,8 +120,9 @@ public class LavaFurnaceBlock extends Block {
                 .harvestLevel(1)
                 .harvestTool(ToolType.PICKAXE)
         );
-        this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(LIT, Boolean.valueOf(false))
-                .with(HAS_HOT_FLUID, Boolean.valueOf(false)).with(IS_EMPTY, Boolean.valueOf(true)));
+        this.setDefaultState(this.stateContainer.getBaseState().with(FACING,
+                Direction.NORTH).with(LIT, Boolean.FALSE)
+                .with(HAS_HOT_FLUID, Boolean.FALSE).with(IS_EMPTY, Boolean.TRUE));
         if (Config.LAVA_FURNACE_KEEPS_NBT.get())
             this.lootTable = new ResourceLocation(LavaFurnace.MOD_ID, "blocks/lava_furnace_nbt");
         else
@@ -139,8 +132,6 @@ public class LavaFurnaceBlock extends Block {
     @Override
     public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
         switch (state.get(FACING)) {
-            case NORTH:
-                return SHAPE_N;
             case EAST:
                 return SHAPE_E;
             case SOUTH:
@@ -261,7 +252,7 @@ public class LavaFurnaceBlock extends Block {
     @OnlyIn(Dist.CLIENT)
     public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
 
-        LavaFurnaceTileEntity te = null;
+        LavaFurnaceTileEntity te;
         if (!(worldIn.getTileEntity(pos) instanceof LavaFurnaceTileEntity))
             return;
         else

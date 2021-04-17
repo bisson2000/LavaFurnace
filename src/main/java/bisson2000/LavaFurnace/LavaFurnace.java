@@ -29,10 +29,8 @@ public class LavaFurnace {
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON_CONFIG,  Config.CONFIG_DIR + "/lavafurnace-common.toml");
-        //ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Config.SERVER_CONFIG, Config.CONFIG_DIR + "lavafurnace-server.toml");
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.CLIENT_CONFIG, Config.CONFIG_DIR + "/lavafurnace-client.toml");
         Config.loadConfig(Config.COMMON_CONFIG, FMLPaths.CONFIGDIR.get().resolve(Config.CONFIG_DIR + "/lavafurnace-common.toml").toString()); //Prevents crash when first loading the game
-        //Config.loadConfig(Config.SERVER_CONFIG, FMLPaths.CONFIGDIR.get().resolve(Config.CONFIG_DIR + "lavafurnace-server.toml").toString()); //Prevents crash when first loading the game
         Config.loadConfig(Config.CLIENT_CONFIG, FMLPaths.CONFIGDIR.get().resolve(Config.CONFIG_DIR + "/lavafurnace-client.toml").toString()); //Prevents crash when first loading the game
 
 
@@ -49,7 +47,6 @@ public class LavaFurnace {
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        //LootTableRegistry.registerLootTables();
         ModSetup.init(event);
     }
 

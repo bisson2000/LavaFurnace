@@ -437,7 +437,7 @@ public class LavaFurnaceTileEntity extends TileEntity implements IRecipeHolder, 
         super.read(stateIn, nbtIn);
 
         if (nbtIn.contains("CustomName", 8)) {
-            this.customName = ITextComponent.Serializer.func_240643_a_(nbtIn.getString("CustomName"));
+            this.customName = ITextComponent.Serializer.getComponentFromJson(nbtIn.getString("CustomName"));
         }
 
         internalHandler.ifPresent( itemStackHandler -> {

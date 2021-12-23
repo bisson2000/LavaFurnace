@@ -87,7 +87,7 @@ public abstract class AbstractCookingCategory<T extends AbstractCookingRecipe> i
             TranslationTextComponent experienceString = new TranslationTextComponent("gui.jei.category.smelting.experience", experience);
             Minecraft minecraft = Minecraft.getInstance();
             FontRenderer fontRenderer = minecraft.fontRenderer;
-            int stringWidth = fontRenderer.func_238414_a_(experienceString);
+            int stringWidth = fontRenderer.getStringPropertyWidth(experienceString);
             fontRenderer.func_238422_b_(matrixStack, experienceString.func_241878_f(), background.getWidth() - stringWidth, 0, 0xFF808080);
         }
 

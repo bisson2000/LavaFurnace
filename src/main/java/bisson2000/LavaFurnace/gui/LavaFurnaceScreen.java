@@ -48,7 +48,7 @@ public class LavaFurnaceScreen extends ContainerScreen<LavaFurnaceContainer> {
         Objects.requireNonNull(this.container, "Null pointer. There needs to be a container associated with the screen");
         Objects.requireNonNull(this.minecraft, "Null pointer. Minecraft needs to exist");
 
-        this.titleX = (this.xSize - this.font.func_238414_a_(this.title)) / 2;
+        this.titleX = (this.xSize - this.font.getStringPropertyWidth(this.title)) / 2;
 
         //add Button
         addButton(new Button(guiLeft + 37, guiTop + 59, 25, 10, new StringTextComponent("Dump"), (button) -> {
@@ -65,7 +65,7 @@ public class LavaFurnaceScreen extends ContainerScreen<LavaFurnaceContainer> {
 
         this.renderBackground(matrixStack); //Render Background
         super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.func_230459_a_(matrixStack, mouseX, mouseY);
+        this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
 
         //tooltip
         List<ITextComponent> tooltip = new ArrayList<>();

@@ -24,7 +24,7 @@ import java.util.List;
 @JeiPlugin
 public class LavaFurnaceJEI implements IModPlugin {
 
-    private static final ClientWorld world = Minecraft.getInstance().world;
+    //private static final ClientWorld world = Minecraft.getInstance();
     public static final ResourceLocation LAVAFURNACE_ID = BlocksRegistry.LAVA_FURNACE.get().getRegistryName();
 
 
@@ -45,7 +45,7 @@ public class LavaFurnaceJEI implements IModPlugin {
     //Register recipes for categories
     @Override
     public void registerRecipes(IRecipeRegistration registry) {
-        RecipeRegistryHandler(registry, LAVAFURNACE_ID, IRecipeType.SMELTING);
+        // RecipeRegistryHandler(registry, LAVAFURNACE_ID, IRecipeType.SMELTING);
     }
 
     //Register which categories a block will be associated with in jei
@@ -72,12 +72,12 @@ public class LavaFurnaceJEI implements IModPlugin {
         System.arraycopy(additionalCategories, 0, categories, 1, additionalCategories.length);
         registry.addRecipeCatalyst(new ItemStack(blockProvider), categories);
     }
-
+/*
     public static <T extends AbstractCookingRecipe> void RecipeRegistryHandler(IRecipeRegistration registry, ResourceLocation id, IRecipeType<T> type) {
         world.getRecipeManager().func_241447_a_(type); //getRecipes
         List recipes = world.getRecipeManager().func_241447_a_(type);
         registry.addRecipes(recipes, id);
-    }
+    }*/
 
 
 }

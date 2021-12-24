@@ -16,15 +16,16 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.AbstractCookingRecipe;
 import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.Objects;
 
 @JeiPlugin
 public class LavaFurnaceJEI implements IModPlugin {
 
-    private static final ClientWorld world = Minecraft.getInstance().world;
     public static final ResourceLocation LAVAFURNACE_ID = BlocksRegistry.LAVA_FURNACE.get().getRegistryName();
 
 
@@ -43,8 +44,8 @@ public class LavaFurnaceJEI implements IModPlugin {
 
     //Register recipes for categories
     @Override
-    public void registerRecipes(IRecipeRegistration registry) {
-        RecipeRegistryHandler(registry, LAVAFURNACE_ID, IRecipeType.SMELTING);
+    public void registerRecipes(IRecipeRegistration registration) {
+        RecipeRegistryHandler(registration, LAVAFURNACE_ID, IRecipeType.SMELTING);
     }
 
     //Register which categories a block will be associated with in jei
@@ -73,8 +74,8 @@ public class LavaFurnaceJEI implements IModPlugin {
     }
 
     public static <T extends AbstractCookingRecipe> void RecipeRegistryHandler(IRecipeRegistration registry, ResourceLocation id, IRecipeType<T> type) {
-        List recipes = world.getRecipeManager().getRecipesForType(type);
-        registry.addRecipes(recipes, id);
+        RecipeManager rm = Objects.requireNonNull(Minecraft.getInstance().world).getRecipeManager();
+        registry.addRecipes(rm.getRecipesForType(type), id);
     }
 
 

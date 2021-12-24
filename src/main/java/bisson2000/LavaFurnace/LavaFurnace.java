@@ -49,7 +49,6 @@ public class LavaFurnace {
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        //LootTableRegistry.registerLootTables();
         ModSetup.init(event);
     }
 

@@ -158,7 +158,7 @@ public abstract class AbstractCookingCategory<T extends AbstractCookingRecipe> i
             int cookTimeModifier = MathHelper.clamp(tankTemperature / configTemperature * Config.SMELT_SPEED_MODIFIER.get(),
                     Config.MINIMUM_SMELT_SPEED_MODIFIER.get(), Config.MAXIMUM_SMELT_SPEED_MODIFIER.get());
 
-            return Math.max((int) (recipe.getCookTime() / cookTimeModifier), 1);
+            return Math.max(recipe.getCookTime() / cookTimeModifier, 1);
         }
     }
 

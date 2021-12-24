@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class LavaFurnaceLootTable extends LootTableProvider {
 
@@ -59,13 +60,13 @@ public class LavaFurnaceLootTable extends LootTableProvider {
     }
 
     public static ResourceLocation createStandardRL(Block block) {
-        String dataFolder = block.getRegistryName().getNamespace();
+        String dataFolder = Objects.requireNonNull(block.getRegistryName()).getNamespace();
         String path = "blocks/" + block.getRegistryName().getPath();
         return new ResourceLocation(dataFolder, path);
     }
 
     public static ResourceLocation createNBTRL(Block block) {
-        String dataFolder = block.getRegistryName().getNamespace();
+        String dataFolder = Objects.requireNonNull(block.getRegistryName()).getNamespace();
         String path = "blocks/" + block.getRegistryName().getPath() + "_nbt";
         return new ResourceLocation(dataFolder, path);
     }
@@ -88,7 +89,6 @@ public class LavaFurnaceLootTable extends LootTableProvider {
                         //Copy entity fluid tank
                         .acceptFunction(CopyNbt.builder(CopyNbt.Source.BLOCK_ENTITY)
                                 .acceptCondition(BlockStateProperty.builder(block).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withBoolProp(block.IS_EMPTY, false)))
-                                //.addOperation("inv", "BlockEntityTag.inv", CopyNbt.Action.REPLACE)
                                 .addOperation("tank", "BlockEntityTag.tank", CopyNbt.Action.REPLACE)
                         )
                         //Copy entity contents

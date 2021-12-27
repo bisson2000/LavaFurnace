@@ -1,4 +1,4 @@
-package bisson2000.LavaFurnace.jei;
+package bisson2000.LavaFurnace.plugin.jei;
 
 
 import bisson2000.LavaFurnace.LavaFurnace;
@@ -12,7 +12,6 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.registration.*;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.AbstractCookingRecipe;
 import net.minecraft.item.crafting.IRecipeType;
@@ -20,7 +19,6 @@ import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 import java.util.Objects;
 
 @JeiPlugin

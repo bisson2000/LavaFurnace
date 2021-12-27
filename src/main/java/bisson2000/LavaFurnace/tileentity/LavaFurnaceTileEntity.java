@@ -231,7 +231,7 @@ public class LavaFurnaceTileEntity extends TileEntity implements IRecipeHolder, 
 
             if (this.isBurning() && this.canSmelt(irecipe)) {
                 ++this.cookTime;
-                if (this.cookTime == this.cookTimeTotal) {
+                if (this.cookTime >= this.cookTimeTotal) {
                     this.cookTime = 0;
                     this.cookTimeTotal = this.getCookTime();
                     this.smelt(irecipe);

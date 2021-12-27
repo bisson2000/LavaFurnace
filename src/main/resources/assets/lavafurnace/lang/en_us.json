@@ -3,6 +3,7 @@
 
   "container.lava_furnace" : "Lava Furnace",
 
+  "gui.lavafurnace.liquid": "Liquid: ",
   "gui.lavafurnace.empty": "Empty",
   "gui.lavafurnace.smelting": "Lava Smelting",
 

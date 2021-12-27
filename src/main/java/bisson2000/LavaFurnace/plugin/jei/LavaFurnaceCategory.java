@@ -1,4 +1,4 @@
-package bisson2000.LavaFurnace.jei;
+package bisson2000.LavaFurnace.plugin.jei;
 
 import bisson2000.LavaFurnace.util.Config;
 import bisson2000.LavaFurnace.init.BlocksRegistry;

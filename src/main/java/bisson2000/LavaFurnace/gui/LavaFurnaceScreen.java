@@ -22,7 +22,6 @@ import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.text.*;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
-import net.minecraftforge.fml.client.gui.GuiUtils;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -80,7 +79,7 @@ public class LavaFurnaceScreen extends ContainerScreen<LavaFurnaceContainer> {
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(MatrixStack p_230450_1_, float p_230450_2_, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayer(MatrixStack matrix, float p_230450_2_, int mouseX, int mouseY) {
 
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.minecraft.getTextureManager().bindTexture(BACKGROUND_TEXTURE);
@@ -88,22 +87,22 @@ public class LavaFurnaceScreen extends ContainerScreen<LavaFurnaceContainer> {
         //Burning Progression
         int i = this.guiLeft;
         int j = this.guiTop;
-        this.blit(p_230450_1_, i, j, 0, 0, this.xSize, this.ySize); //Blit function
+        this.blit(matrix, i, j, 0, 0, this.xSize, this.ySize); //Blit function
         if (this.container.isBurning()) {
             int k = this.container.getBurnLeftScaled();
-            this.blit(p_230450_1_, i + 56, j + 36 + 12 - k, 176, 12 - k, 14, k + 1);
+            this.blit(matrix, i + 56, j + 36 + 12 - k, 176, 12 - k, 14, k + 1);
         }
 
         //Cook Progression
         int l = this.container.getCookProgressionScaled();
-        this.blit(p_230450_1_, i + 79, j + 34, 176, 14, l + 1, 16);
+        this.blit(matrix, i + 79, j + 34, 176, 14, l + 1, 16);
 
         //Fluid
-        drawFluidInTank(p_230450_1_, fluidTank.getFluid(), fluidTank.getCapacity(), i + 14, j + 9, 18, 59);
+        drawFluidInTank(matrix, fluidTank.getFluid(), fluidTank.getCapacity(), i + 14, j + 9, 18, 59);
 
         //Draw lines over fluid
         this.minecraft.getTextureManager().bindTexture(BACKGROUND_TEXTURE); //Must rebind after drawing
-        this.blit(p_230450_1_, i + 13, j + 8, 180, 35, 20, 61);
+        this.blit(matrix, i + 13, j + 8, 180, 35, 20, 61);
 
     }
 
@@ -148,89 +147,13 @@ public class LavaFurnaceScreen extends ContainerScreen<LavaFurnaceContainer> {
         if (fluid != null && fluid.getFluid() != null) {
 
             int fluidHeight = Math.min((int) (height * (fluid.getAmount() / (float) capacity)), height);
-            drawFluidSprite(matrixStack, fluid, xToPlace, yToPlace + height - fluidHeight, width, fluidHeight);
-            RenderSystem.color3f(1, 1, 1);
+            LavaFurnaceGuiUtils.drawFluidSprite(matrixStack, fluid, xToPlace, yToPlace + height - fluidHeight, width, fluidHeight);
+            LavaFurnaceGuiUtils.resetColor();
 
         }
         matrixStack.pop();
     }
 
-    private static void drawFluidSprite(MatrixStack matrixStack, FluidStack fluid, float x, float y, float w, float h) {
 
-        ResourceLocation fluidResourceLocation = fluid.getFluid().getAttributes().getStillTexture(fluid);
-        TextureAtlasSprite fluidSprite = Minecraft.getInstance().getModelManager().getAtlasTexture(PlayerContainer.LOCATION_BLOCKS_TEXTURE).getSprite(fluidResourceLocation);
-        Minecraft.getInstance().getTextureManager().bindTexture(PlayerContainer.LOCATION_BLOCKS_TEXTURE);
-
-        int color = fluid.getFluid().getAttributes().getColor();
-        float r = ((color >> 16) & 0xFF) / 255f; // red
-        float g = ((color >> 8) & 0xFF) / 255f; // green
-        float b = ((color >> 0) & 0xFF) / 255f; // blue
-        float a = ((color >> 24) & 0xFF) / 255f; // alpha
-        RenderSystem.color4f(r, g, b, a);
-
-        int iconWidth = fluidSprite.getWidth();
-        int iconHeight = fluidSprite.getHeight();
-
-        if (!(iconWidth > 0 && iconHeight > 0))
-            return;
-
-        float uMax = fluidSprite.getMaxU();
-        float uMin = fluidSprite.getMinU();
-        float vMax = fluidSprite.getMaxV();
-        float vMin = fluidSprite.getMinV();
-
-        int iterMaxW = (int) (w / iconWidth);
-        int iterMaxH = (int) (h / iconHeight);
-        float leftoverW = w % iconWidth;
-        float leftoverH = h % iconHeight;
-        float leftoverWf = leftoverW / (float) iconWidth;
-        float leftoverHf = leftoverH / (float) iconHeight;
-        float iconUDif = uMax - uMin;
-        float iconVDif = vMax - vMin;
-
-        for (int ww = 0; ww < iterMaxW; ww++) {
-            for (int hh = 0; hh < iterMaxH; hh++)
-                customInnerBlit(matrixStack.getLast().getMatrix(), (int) x + ww * iconWidth, (int) y + hh * iconHeight, iconWidth, iconHeight,
-                        uMin, uMax, vMin, vMax);
-            customInnerBlit(matrixStack.getLast().getMatrix(), (int) x + ww * iconWidth, (int) y + iterMaxH * iconHeight, iconWidth, (int) leftoverH,
-                    uMin, uMax, vMin, (vMin + iconVDif * leftoverHf));
-
-
-        }
-        if (leftoverW > 0) {
-            for (int hh = 0; hh < iterMaxH; hh++)
-                customInnerBlit(matrixStack.getLast().getMatrix(), (int) x + iterMaxW * iconWidth, (int) y + hh * iconHeight, (int) leftoverW, iconHeight,
-                        uMin, (uMin + iconUDif * leftoverWf), vMin, vMax);
-            customInnerBlit(matrixStack.getLast().getMatrix(), (int) x + iterMaxW * iconWidth, (int) y + iterMaxH * iconHeight, (int) leftoverW, (int) leftoverH,
-                    uMin, (uMin + iconUDif * leftoverWf), vMin, (vMin + iconVDif * leftoverHf));
-        }
-
-    }
-
-    /**
-     * Same process as the default minecraft AbstractGui#innerBlit function
-     *
-     * @param matrix
-     * @param x1
-     * @param y1
-     * @param width
-     * @param height
-     * @param minU
-     * @param maxU
-     * @param minV
-     * @param maxV
-     */
-    private static void customInnerBlit(Matrix4f matrix, int x1, int y1, int width, int height, float minU, float maxU, float minV, float maxV) {
-        int blitOffset = 0;
-        BufferBuilder bufferbuilder = Tessellator.getInstance().getBuffer();
-        bufferbuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-        bufferbuilder.pos(matrix, (float) x1, (float) y1 + height, (float) blitOffset).tex(minU, maxV).endVertex();
-        bufferbuilder.pos(matrix, (float) x1 + width, (float) y1 + height, (float) blitOffset).tex(maxU, maxV).endVertex();
-        bufferbuilder.pos(matrix, (float) x1 + width, (float) y1, (float) blitOffset).tex(maxU, minV).endVertex();
-        bufferbuilder.pos(matrix, (float) x1, (float) y1, (float) blitOffset).tex(minU, minV).endVertex();
-        bufferbuilder.finishDrawing();
-        RenderSystem.enableAlphaTest();
-        WorldVertexBufferUploader.draw(bufferbuilder);
-    }
 
 }

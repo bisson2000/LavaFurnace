@@ -6,6 +6,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import mcp.mobius.waila.api.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.tileentity.TileEntity;
@@ -21,13 +22,15 @@ import java.awt.*;
 import java.util.List;
 
 
-public class LavaFurnaceBlockWaila implements IServerDataProvider<TileEntity>, IComponentProvider, ITooltipRenderer {
+public class LavaFurnaceBlockWaila implements IServerDataProvider<TileEntity>, IComponentProvider, ITooltipRenderer  {
 
     public static final ResourceLocation WailaToolTip = new ResourceLocation(LavaFurnace.MOD_ID, "waila_tooltip");
     public static final String lavaFurnaceNBTData = "LavaFurnaceData";
     public static final String textNBTData = "text";
     public static final String fluidStoredNBTData = "fluid";
     public static final String maxNBTData = "max";
+    public static final String smeltingProgressNBTData = "smeltingProgress";
+    public static final String smeltingTotalNBTData = "smeltingTotal";
 
     public static final LavaFurnaceBlockWaila INSTANCE = new LavaFurnaceBlockWaila();
 
@@ -44,6 +47,7 @@ public class LavaFurnaceBlockWaila implements IServerDataProvider<TileEntity>, I
         final ListNBT returnedData = new ListNBT();
         final FluidTank fluidTank = lavaFurnaceTileEntity.getFluidTank();
 
+        // Fluid data inside the FluidTank
         if(!fluidTank.isEmpty()) {
             CompoundNBT textData = new CompoundNBT();
             final TranslationTextComponent displayName = new TranslationTextComponent("gui." + LavaFurnace.MOD_ID + ".liquid");
@@ -52,10 +56,18 @@ public class LavaFurnaceBlockWaila implements IServerDataProvider<TileEntity>, I
             returnedData.add(textData);
         }
 
+        // FluidTank data
         CompoundNBT fluidData = new CompoundNBT();
         fluidData.put(fluidStoredNBTData, fluidTank.getFluid().writeToNBT(new CompoundNBT()));
         fluidData.putInt(maxNBTData, fluidTank.getCapacity());
         returnedData.add(fluidData);
+
+        // Cooking data
+        // CompoundNBT furnaceTag = lavaFurnaceTileEntity.write(new CompoundNBT());
+        // CompoundNBT extractedFurnaceTag = new CompoundNBT();
+        // extractedFurnaceTag.putInt(smeltingProgressNBTData, furnaceTag.getInt("CookTime"));
+        // extractedFurnaceTag.putInt(smeltingTotalNBTData, furnaceTag.getInt("CookTimeTotal"));
+        // returnedData.add(extractedFurnaceTag);
 
         return returnedData;
     }
@@ -103,6 +115,5 @@ public class LavaFurnaceBlockWaila implements IServerDataProvider<TileEntity>, I
             currentY += 15;
         }
     }
-
 
 }

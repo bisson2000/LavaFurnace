@@ -245,6 +245,25 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             artifact jar
+            pom {
+                name = 'lavafurnace'
+                packaging = 'jar'
+                description = 'This mod adds a Lava Furnace that smelts items faster with hot fluids'
+                url = 'https://github.com/bisson2000/LavaFurnace'
+                issueManagement {
+                    system = 'github'
+                    url ='https://github.com/bisson2000/LavaFurnace/issues'
+                }
+                licenses {
+                    license {
+                        name = 'MIT'
+                        distribution = 'repo'
+                    }
+                }
+                scm {
+                    url = 'https://github.com/bisson2000/LavaFurnace.git'
+                }
+            }
         }
     }
     repositories {

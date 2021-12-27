@@ -1,0 +1,73 @@
+name: Bug Report
+description: Create a report to help us improve
+assignees:
+  - bisson2000
+body:
+  - type: markdown
+    attributes: 
+      value: |
+        Please search to see if an issue already exists for the bug you encountered.
+
+        ---
+
+        Thanks for taking the time to fill out this bug report!
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug description
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Write the steps to reproduce the bug
+      placeholder: "1. Go to '....'\n2. Place '....'\n3. Click on '....'\n4. See error"
+    validations:
+      required: false
+  - type: textarea
+    id: expectedBehavior
+    attributes:
+      label: Expected behavior
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: false
+  - type: input
+    id: minecraftVersion
+    attributes:
+      label: Minecraft version
+      description: What Minecraft version are you using?
+      placeholder: ex. 1.16.5
+    validations:
+      required: true
+  - type: input
+    id: forgeVersion
+    attributes:
+      label: Forge version
+      description: What forge version are you using?
+      placeholder: ex. 36.2.20
+    validations:
+      required: true
+  - type: input
+    id: lavaFurnaceVersion
+    attributes:
+      label: LavaFurnace version
+      description: What version of LavaFurnace are you using?
+      placeholder: ex. 1.0.4
+    validations:
+      required: false
+  - type: textarea
+    id: additionalContext
+    attributes:
+      label: Additional context
+      description: Add any other context about the problem here.
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: Relevant log output
+      description: If applicable, provide relevant log output. No need for backticks here.
+      render: shell
+    validations:
+      required: false
